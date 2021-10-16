@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/upcoming_fragment">
+
+    <fragment
+        android:id="@+id/upcoming_fragment"
+        android:name="com.kyawhut.codetest.ui.upcoming.UpcomingFragment"
+        android:label="@string/upcoming_fragment_label"
+        tools:layout="@layout/fragment_upcoming">
+
+        <action
+            android:id="@+id/action_upcoming_fragment_to_detail_fragment"
+            app:destination="@id/detail_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/popular_fragment"
+        android:name="com.kyawhut.codetest.ui.popular.PopularFragment"
+        android:label="@string/popular_fragment_label"
+        tools:layout="@layout/fragment_popular">
+
+        <action
+            android:id="@+id/action_popular_fragment_to_detail_fragment"
+            app:destination="@id/detail_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detail_fragment"
+        android:name="com.kyawhut.codetest.ui.detail.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="movies_id"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>
