@@ -1,6 +1,6 @@
 package com.kyawhut.codetest.ui.popular
 
-import com.kyawhut.codetest.data.db.dao.MoviesDao
+import com.kyawhut.codetest.data.db.datasource.MoviesDataSource
 import com.kyawhut.codetest.data.db.entities.MoviesEntity
 import com.kyawhut.codetest.data.db.entities.MoviesEntity.Companion.toMovieEntity
 import com.kyawhut.codetest.data.db.utils.MoviesType
@@ -15,11 +15,11 @@ import javax.inject.Inject
  */
 class PopularRepositoryImpl @Inject constructor(
     private val api: API,
-    private val moviesDao: MoviesDao,
+    private val moviesSource: MoviesDataSource
 ) : PopularRepository {
 
     override fun getPopularList(): List<MoviesEntity> {
-        return moviesDao.getAll(MoviesType.POPULAR)
+        return moviesSource.getAll(MoviesType.POPULAR)
     }
 
     override suspend fun fetchPopularList(
@@ -35,8 +35,8 @@ class PopularRepositoryImpl @Inject constructor(
             response.data?.results?.map {
                 it.toMovieEntity(MoviesType.POPULAR)
             }?.also {
-                if (page == 1) moviesDao.delete(MoviesType.POPULAR)
-                moviesDao.insert(*it.toTypedArray())
+                if (page == 1) moviesSource.delete(MoviesType.POPULAR)
+                moviesSource.insert(*it.toTypedArray())
             }.also {
                 NetworkResponse.success(
                     (response.data?.totalPages ?: 0) to (it ?: listOf()),

@@ -1,6 +1,6 @@
 package com.kyawhut.codetest.ui.upcoming
 
-import com.kyawhut.codetest.data.db.dao.MoviesDao
+import com.kyawhut.codetest.data.db.datasource.MoviesDataSource
 import com.kyawhut.codetest.data.db.entities.MoviesEntity
 import com.kyawhut.codetest.data.db.entities.MoviesEntity.Companion.toMovieEntity
 import com.kyawhut.codetest.data.db.utils.MoviesType
@@ -15,11 +15,11 @@ import javax.inject.Inject
  */
 class UpComingRepositoryImpl @Inject constructor(
     private val api: API,
-    private val moviesDao: MoviesDao,
+    private val moviesSource: MoviesDataSource
 ) : UpComingRepository {
 
     override fun getUpComingList(): List<MoviesEntity> {
-        return moviesDao.getAll(MoviesType.UPCOMING)
+        return moviesSource.getAll(MoviesType.UPCOMING)
     }
 
     override suspend fun fetchUpComingList(
@@ -35,8 +35,8 @@ class UpComingRepositoryImpl @Inject constructor(
             response.data?.results?.map {
                 it.toMovieEntity(MoviesType.UPCOMING)
             }?.also {
-                if (page == 1) moviesDao.delete(MoviesType.UPCOMING)
-                moviesDao.insert(*it.toTypedArray())
+                if (page == 1) moviesSource.delete(MoviesType.UPCOMING)
+                moviesSource.insert(*it.toTypedArray())
             }.also {
                 NetworkResponse.success(
                     (response.data?.totalPages ?: 0) to (it ?: listOf()),

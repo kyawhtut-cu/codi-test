@@ -1,7 +1,7 @@
 package com.kyawhut.codetest.data.di
 
-import com.kyawhut.codetest.data.db.AppDatabase
-import com.kyawhut.codetest.data.db.dao.MoviesDao
+import com.kyawhut.codetest.data.db.datasource.MoviesDataSource
+import com.kyawhut.codetest.data.db.datasourceImpl.MoviesDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,8 +18,8 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideMoviesDao(appDatabase: AppDatabase): MoviesDao {
-        return appDatabase.moviesDao
+    fun provideMovieSource(source: MoviesDataSourceImpl): MoviesDataSource {
+        return source
     }
 
 }

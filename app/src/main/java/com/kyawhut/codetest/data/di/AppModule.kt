@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.kyawhut.codetest.BuildConfig
 import com.kyawhut.codetest.data.db.AppDatabase
+import com.kyawhut.codetest.data.db.dao.MoviesDao
 import com.kyawhut.codetest.data.network.API
 import com.kyawhut.codetest.data.network.interceptors.ConnectionInterceptor
 import com.kyawhut.codetest.data.network.interceptors.HeaderInterceptor
@@ -52,6 +53,12 @@ object AppModule {
             BuildConfig.API_BASE_URL,
             listOf(headerInterceptor, interceptor, loggingInterceptor)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideMoviesDao(appDatabase: AppDatabase): MoviesDao {
+        return appDatabase.moviesDao
     }
 
 }
